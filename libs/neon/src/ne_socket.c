@@ -1024,6 +1024,7 @@ char *ne_addr_error(const ne_sock_addr *addr, char *buf, size_t bufsiz)
 
 char *ne_iaddr_print(const ne_inet_addr *ia, char *buf, size_t bufsiz)
 {
+    struct sockaddr_in *si;
 #if defined(USE_GETADDRINFO) && defined(HAVE_INET_NTOP)
     const char *ret;
 #ifdef AF_INET6
@@ -1045,7 +1046,8 @@ char *ne_iaddr_print(const ne_inet_addr *ia, char *buf, size_t bufsiz)
                     NI_NUMERICHOST))
         ne_strnzcpy(buf, "[IP address]", bufsiz);
 #else /* USE_GETADDRINFO */
-    ne_strnzcpy(buf, inet_ntoa(*ia), bufsiz);
+    si = (struct sockaddr_in *)ia->ai_addr;
+    ne_strnzcpy(buf, inet_ntoa(si->sin_addr), bufsiz);
 #endif
     return buf;
 }

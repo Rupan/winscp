@@ -45,6 +45,11 @@
 #endif /* NE_ENABLE_NLS */
 #define N_(str) (str)
 
+#if !defined(LLONG_MAX) && defined(__BORLANDC__)
+/* See Borland's definition of MAXLONGLONG in winnt.h */
+#define LLONG_MAX (0x7FFFFFFFFFFFFFFFi64)
+#endif
+
 #if !defined(LONG_LONG_MAX) && defined(LLONG_MAX)
 #define LONG_LONG_MAX LLONG_MAX
 #elif !defined(LONG_LONG_MAX) && defined(LONGLONG_MAX)
