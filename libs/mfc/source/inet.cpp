@@ -674,28 +674,20 @@ BOOL CInternetSession::EnableStatusCallback(BOOL bEnable /* = TRUE */)
 
 BOOL CInternetSession::SetCookie(LPCSTR pstrUrl, LPCTSTR pstrCookieName, LPCTSTR pstrCookieData)
 {
-	ASSERT(AfxIsValidString(pstrUrl));
-	ASSERT(AfxIsValidString(pstrCookieName));
-	return InternetSetCookie(pstrUrl, pstrCookieName, pstrCookieData);
+	AfxThrowInternetException(GetLastError());
+	return false;
 }
 
 BOOL CInternetSession::GetCookie(LPCSTR pstrUrl, LPCTSTR pstrCookieName, LPTSTR pstrCookieData, DWORD dwBufLen)
 {
-	ASSERT(AfxIsValidString(pstrUrl));
-	ASSERT(AfxIsValidString(pstrCookieName));
-	ASSERT(pstrCookieData != NULL);
-	return InternetGetCookie(pstrUrl, pstrCookieName, pstrCookieData, &dwBufLen);
+	AfxThrowInternetException(GetLastError());
+	return false;
 }
 
 DWORD CInternetSession::GetCookieLength(LPCSTR pstrUrl, LPCTSTR pstrCookieName)
 {
-	ASSERT(AfxIsValidString(pstrUrl));
-	ASSERT(AfxIsValidString(pstrCookieName));
-
-	DWORD dwRet;
-	if (!InternetGetCookie(pstrUrl, pstrCookieName, NULL, &dwRet))
-		dwRet = 0;
-	return dwRet;
+	AfxThrowInternetException(GetLastError());
+	return 0;
 }
 
 BOOL CInternetSession::GetCookie(LPCSTR pstrUrl, LPCTSTR pstrCookieName, CString& strCookieData)
